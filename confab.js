@@ -1,6 +1,4 @@
 var loadConfabulatedTweets = function(tweet, tweetReqStatus) {
-  console.log(tweet);
-
   // get the oembed details for the tweet
   $.ajax({
     url:'http://api.twitter.com/1/statuses/oembed.json?'+
@@ -10,7 +8,6 @@ var loadConfabulatedTweets = function(tweet, tweetReqStatus) {
     dataType: 'jsonp',
     error: function(){},
     success: function(embed, embedReqStatus) {
-      console.log(embed);
       $('#rendered-tweets').prepend(embed.html);
       // if this tweet is in reply to another - act on that as well
       if (tweet.in_reply_to_status_id_str) {
@@ -27,7 +24,7 @@ var loadConfabulatedTweets = function(tweet, tweetReqStatus) {
   });
 };
 
-// bind the tweet loader to the button when the document is complete
+// bind the loader to the form
 $(document).ready( function() {
   $('#confabulation').submit(function() {
     $('#rendered-tweets').empty(); // clear old tweets
