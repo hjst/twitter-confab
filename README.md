@@ -15,6 +15,7 @@ Advantages:
 
 Limitations:
 
+* Can only operate on public tweets
 * Cannot follow a conversation with more than 2 participants: each tweet can be
   in reply to only zero or one other tweets
 * Cannot find future tweets - so please use the last (most recent) tweet as
@@ -22,7 +23,7 @@ Limitations:
 
 Makes use of:
 
-* [Skeleton][https://github.com/dhgamache/Skeleton]
-* [jQuery][https://github.com/jquery/jquery]
-* Twitter API: [GET statuses/show/:id][https://dev.twitter.com/docs/api/1/get/statuses/show/:id]
-* Twitter API: [GET statuses/oembed][https://dev.twitter.com/docs/api/1/get/statuses/oembed]
+* [Skeleton](https://github.com/dhgamache/Skeleton)
+* [jQuery](https://github.com/jquery/jquery)
+* Twitter API: [GET statuses/show/:id](https://dev.twitter.com/docs/api/1/get/statuses/show/:id)
+* Twitter API: [GET statuses/oembed](https://dev.twitter.com/docs/api/1/get/statuses/oembed)
