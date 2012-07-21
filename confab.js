@@ -5,12 +5,6 @@ $.ajaxSetup({
 });
 
 var displayError = function(jqXHR, status, errorText){
-  if (status !== 'timeout') {
-    // we got an error of some sort, with JSONP it's usually not possible
-    // to know what exactly, we just get the timeout - so if we get something
-    // else we should log it
-    console.log(jqXHR, status, errorText);
-  }
   $('#rendered-tweets').prepend(
     '<p class="error">'+
       '<strong>Twitter Error</strong><br>'+
@@ -21,7 +15,6 @@ var displayError = function(jqXHR, status, errorText){
 };
 
 var loadConfabulatedTweets = function(tweet, tweetReqStatus) {
-  console.log('tweet: ', tweet);
   // get the oembed details for the tweet
   $.ajax({
     url:'http://api.twitter.com/1/statuses/oembed.json?'+
@@ -52,11 +45,21 @@ $(document).ready( function() {
     if (matches) {
       // use the last number in the URL/input, which should be the id
       var initial_tweet_id = matches[matches.length-1];
+      // disable the button while we fetch stuff
+      $(this).children(':submit')
+        .val('Confabulating...')
+        .attr('disabled', true);
 
       $.ajax({
         url:'http://api.twitter.com/1/statuses/show/'+initial_tweet_id+'.json?trim_user=1',
         error: displayError,
         success: loadConfabulatedTweets
+      }).complete(function(){
+        // enable the button - we either succeeded or failed, but the user
+        // will need the button again either way
+        $('#confabulation').children(':submit')
+          .val('Confabulate')
+          .removeAttr('disabled');
       });
       
       window.location.hash = '#'+initial_tweet_id;
