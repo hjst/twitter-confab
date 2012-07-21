@@ -22,7 +22,8 @@ var loadConfabulatedTweets = function(tweet, tweetReqStatus) {
       'omit_script=1'+
       '&hide_thread=1',
     success: function(embed, embedReqStatus) {
-      $('#rendered-tweets').prepend(embed.html);
+      $(embed.html).prependTo('#rendered-tweets');
+      //$('#rendered-tweets').prepend(embed.html);
       // if this tweet is in reply to another - act on that as well
       if (tweet.in_reply_to_status_id_str) {
         $.ajax({
@@ -39,7 +40,9 @@ var loadConfabulatedTweets = function(tweet, tweetReqStatus) {
 // bind the loader to the form
 $(document).ready( function() {
   $('#confabulation').submit(function() {
-    $('#rendered-tweets').empty(); // clear old tweets
+    $('#rendered-tweets').slideUp( 'slow', function() {
+      $(this).empty().slideDown();
+    });
     var tweet_input = $(this).children('input#contweet').val();
     var matches = tweet_input.match(/(\d+)/g);
     if (matches) {
