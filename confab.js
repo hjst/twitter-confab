@@ -1,5 +1,5 @@
 var loadConfabulatedTweets = function(tweet, tweetReqStatus) {
-  console.log(tweet.id_str, ': ', tweet.text);
+  console.log(tweet);
 
   // get the oembed details for the tweet
   $.ajax({
@@ -10,7 +10,7 @@ var loadConfabulatedTweets = function(tweet, tweetReqStatus) {
     error: function(){},
     success: function(embed, embedReqStatus) {
       console.log(embed);
-      $('#confabulation').after(embed.html);
+      $('#rendered-tweets').prepend(embed.html);
       // if this tweet is in reply to another - act on that as well
       if (tweet.in_reply_to_status_id_str) {
         $.ajax({
@@ -29,6 +29,7 @@ var loadConfabulatedTweets = function(tweet, tweetReqStatus) {
 // bind the tweet loader to the button when the document is complete
 $(document).ready( function() {
   $('#confabulation').submit(function() {
+    $('#rendered-tweets').empty(); // clear old tweets
     var tweet_input = $(this).children('input#contweet').val();
     var matches = tweet_input.match(/(\d+)/g);
     // use the last number in the URL/input, which should be the id
