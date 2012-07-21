@@ -40,6 +40,13 @@ $(document).ready( function() {
       success: loadConfabulatedTweets
     });
 
+    window.location.hash = '#'+initial_tweet_id;
+
     return false;
   });
+  // see if there is already an #id in the URL
+  if (window.location.hash) {
+    $('#contweet').val(window.location.hash.substr(1));
+    $('#confabulation').submit();
+  }
 });
