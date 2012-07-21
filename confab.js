@@ -5,6 +5,7 @@ var loadConfabulatedTweets = function(tweet, tweetReqStatus) {
   $.ajax({
     url:'http://api.twitter.com/1/statuses/oembed.json?'+
       'id='+tweet.id_str+
+      'omit_script=1'+
       '&hide_thread=1',
     dataType: 'jsonp',
     error: function(){},
