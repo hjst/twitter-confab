@@ -3,23 +3,22 @@ var loadConfabulatedTweets = function(tweet, tweetReqStatus) {
 
   // get the oembed details for the tweet
   $.ajax({
-    url:'http://api.twitter.com/1/statuses/oembed.json?id='+tweet.id_str+'&omit_script=1',
+    url:'http://api.twitter.com/1/statuses/oembed.json?id='+tweet.id_str,
     dataType: 'jsonp',
     error: function(){},
     success: function(embed, embedReqStatus) {
       $('#confabulation').after(embed.html);
+      // if this tweet is in reply to another - act on that as well
+      if (tweet.in_reply_to_status_id_str) {
+        $.ajax({
+          url:'http://api.twitter.com/1/statuses/show/'+tweet.in_reply_to_status_id_str+'.json?trim_user=1',
+          dataType: 'jsonp',
+          error: function(){},
+          success: loadConfabulatedTweets
+        });
+      }
     }
   });
-
-  // if this tweet is in reply to another - act on that as well
-  if (tweet.in_reply_to_status_id_str) {
-    $.ajax({
-      url:'http://api.twitter.com/1/statuses/show/'+tweet.in_reply_to_status_id_str+'.json?trim_user=1',
-      dataType: 'jsonp',
-      error: function(){},
-      success: loadConfabulatedTweets
-    });
-  }
 };
 
 // bind the tweet loader to the button when the document is complete
